@@ -1,16 +1,31 @@
 package com.qoiu.holybibleapp.data
 
+import com.qoiu.holybibleapp.data.cache.BooksCacheDataSource
+import com.qoiu.holybibleapp.data.cache.BooksCacheMapper
 import java.lang.Exception
 
 interface BooksRepository {
 
-    suspend fun fetchBooks(): BookData
+    suspend fun fetchBooks(): BooksData
 
-    class Base(private val cloudDataSource: BooksCloudDataSource) : BooksRepository {
+    class Base(
+        private val cloudDataSource: BooksCloudDataSource,
+        private val cacheDataSource: BooksCacheDataSource,
+        private val booksCloudMapper: BooksCloudMapper,
+        private val booksCacheMapper: BooksCacheMapper
+    ) : BooksRepository {
         override suspend fun fetchBooks() = try {
-            BookData.Success(cloudDataSource.fetchBooks())
+            val booksCacheList = cacheDataSource.fetchBooks()
+            if(booksCacheList.isEmpty()){
+                val booksCloudList = cloudDataSource.fetchBooks()
+                val books = booksCloudMapper.map(booksCloudList)
+                cacheDataSource.saveBooks(books)
+                BooksData.Success(books)
+            } else{
+                BooksData.Success(booksCacheMapper.map(booksCacheList))
+            }
         } catch (e: Exception) {
-            BookData.Fail(e)
+            BooksData.Fail(e)
         }
     }
 }
