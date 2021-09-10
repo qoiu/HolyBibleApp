@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 import com.qoiu.holybibleapp.core.Abstract
 import com.qoiu.holybibleapp.core.Book
 import com.qoiu.holybibleapp.data.BookCloudMapper
-import com.qoiu.holybibleapp.data.BooksCloudMapper
 
 data class BookCloud(
     @SerializedName("id")

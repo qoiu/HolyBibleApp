@@ -13,6 +13,11 @@ import com.qoiu.holybibleapp.data.net.BookService
 import retrofit2.Retrofit
 import com.qoiu.holybibleapp.domain.BaseBookDataToDomainMapper
 import com.qoiu.holybibleapp.domain.BooksInteractor
+import com.qoiu.holybibleapp.presentation.BaseBooksDomainToUiMapper
+import com.qoiu.holybibleapp.presentation.BooksCommunication
+import com.qoiu.holybibleapp.presentation.MainViewModel
+import com.qoiu.holybibleapp.presentation.ResourceProvider
+import io.realm.Realm
 
 
 class BibleApp: Application() {
@@ -24,6 +29,7 @@ class BibleApp: Application() {
     lateinit var mainViewModel: MainViewModel
     override fun onCreate() {
         super.onCreate()
+        Realm.init(this)
 
         val retrofit = Retrofit.Builder().baseUrl(BASE_URL).build()
         val service = retrofit.create(BookService::class.java)
@@ -40,10 +46,11 @@ class BibleApp: Application() {
         )
         val booksInteractor = BooksInteractor.Base(booksRepository,BaseBookDataToDomainMapper())
 
-        val booksInteractor: BooksInteractor = TODO()
+        val communication = BooksCommunication.Base()
         mainViewModel = MainViewModel(
+            communication,
             booksInteractor,
-            BaseBooksDomainToUiMapper(BooksCommunication.Base(), ResourceProvider.Base(this))
+            BaseBooksDomainToUiMapper(communication, ResourceProvider.Base(this))
         )
     }
 }
