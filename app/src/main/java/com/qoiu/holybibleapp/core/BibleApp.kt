@@ -14,12 +14,14 @@ import retrofit2.Retrofit
 import com.qoiu.holybibleapp.domain.BaseBookDataToDomainMapper
 import com.qoiu.holybibleapp.domain.BooksInteractor
 
+
 class BibleApp: Application() {
 
     private companion object {
         const val BASE_URL = "https://bible-go-api.rkeplin.com/v1/"
     }
 
+    lateinit var mainViewModel: MainViewModel
     override fun onCreate() {
         super.onCreate()
 
@@ -37,5 +39,11 @@ class BibleApp: Application() {
             booksCacheMapper
         )
         val booksInteractor = BooksInteractor.Base(booksRepository,BaseBookDataToDomainMapper())
+
+        val booksInteractor: BooksInteractor = TODO()
+        mainViewModel = MainViewModel(
+            booksInteractor,
+            BaseBooksDomainToUiMapper(BooksCommunication.Base(), ResourceProvider.Base(this))
+        )
     }
 }
