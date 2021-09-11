@@ -17,11 +17,11 @@ interface BooksCommunication {
         private val successLiveData = MutableLiveData<List<Book>>()
         private val failLiveData = MutableLiveData<String>()
         override fun show(books: List<Book>) {
-            successLiveData.postValue(books)
+            successLiveData.value =books
         }
 
         override fun show(errorMessage: String) {
-            failLiveData.postValue(errorMessage)
+            failLiveData.value = errorMessage
         }
 
         override fun observeSuccess(owner: LifecycleOwner, observer: Observer<List<Book>>) {

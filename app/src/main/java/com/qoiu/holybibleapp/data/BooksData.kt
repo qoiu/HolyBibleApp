@@ -7,13 +7,13 @@ import java.lang.Exception
 
 sealed class BooksData: Abstract.Object<BookDomain, BooksDataToDomainMapper>() {
 
-        class Success(private val books: List<Book>) : BooksData() {
+        data class Success(private val books: List<Book>) : BooksData() {
             override fun map(mapper: BooksDataToDomainMapper): BookDomain {
                 return mapper.map(books)
             }
         }
 
-        class Fail(private val exception: Exception) : BooksData(){
+        data class Fail(private val exception: Exception) : BooksData(){
             override fun map(mapper: BooksDataToDomainMapper): BookDomain {
                 return mapper.map(exception)
             }
