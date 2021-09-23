@@ -2,6 +2,7 @@ package com.qoiu.holybibleapp.data
 
 import com.qoiu.holybibleapp.data.cache.BooksCacheDataSource
 import com.qoiu.holybibleapp.data.cache.BooksCacheMapper
+import kotlinx.coroutines.delay
 import java.lang.Exception
 
 interface BooksRepository {
@@ -17,6 +18,7 @@ interface BooksRepository {
         override suspend fun fetchBooks() = try {
             val booksCacheList = cacheDataSource.fetchBooks()
             if(booksCacheList.isEmpty()){
+                delay(3000)
                 val booksCloudList = cloudDataSource.fetchBooks()
                 val books = booksCloudMapper.map(booksCloudList)
                 cacheDataSource.saveBooks(books)

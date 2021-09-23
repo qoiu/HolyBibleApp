@@ -16,14 +16,16 @@ class MainActivity : AppCompatActivity() {
 
         val viewModel = (application as BibleApp).mainViewModel
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        val adapter = BibleAdapter()
+        val adapter = BibleAdapter(object : BibleAdapter.BibleViewHolder.Retry{
+            override fun tryAgain() {
+                viewModel.fetchBooks()
+            }
+        })
         recyclerView.adapter = adapter
 
-        viewModel.observeSuccess(this, Observer {
+        viewModel.observeSuccess(this, {
             adapter.update(it)
         })
         viewModel.fetchBooks()
-
-        //TODO: observeFail
     }
 }

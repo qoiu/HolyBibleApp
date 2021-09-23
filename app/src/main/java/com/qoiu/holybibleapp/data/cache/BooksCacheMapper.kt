@@ -1,15 +1,16 @@
 package com.qoiu.holybibleapp.data.cache
 
 import com.qoiu.holybibleapp.core.Abstract
-import com.qoiu.holybibleapp.core.Book
+import com.qoiu.holybibleapp.data.BookData
+import com.qoiu.holybibleapp.data.ToBookMapper
 
-interface BooksCacheMapper: Abstract.Mapper {
+interface BooksCacheMapper: Abstract.Mapper{
 
-    fun map(books: List<BookDB>): List<Book>
+    fun map(listTo: List<Abstract.Object<BookData, ToBookMapper>>): List<BookData>
 
-    class Base(private val mapper: BookCacheMapper): BooksCacheMapper{
-        override fun map(books: List<BookDB>) = books.map { bookDB ->
-            bookDB.map(mapper)
+    class Base(private val toBookMapper: ToBookMapper) : BooksCacheMapper {
+        override fun map(listTo: List<Abstract.Object<BookData, ToBookMapper>>): List<BookData> = listTo.map { bookCache ->
+            bookCache.map(toBookMapper)
         }
     }
 }

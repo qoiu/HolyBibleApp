@@ -1,26 +1,24 @@
 package com.qoiu.holybibleapp.core
 
 import android.app.Application
-import com.qoiu.holybibleapp.data.BookCloudMapper
-import com.qoiu.holybibleapp.data.BooksCloudDataSource
-import com.qoiu.holybibleapp.data.BooksCloudMapper
-import com.qoiu.holybibleapp.data.BooksRepository
-import com.qoiu.holybibleapp.data.cache.BookCacheMapper
+import com.google.gson.Gson
+import com.qoiu.holybibleapp.data.*
 import com.qoiu.holybibleapp.data.cache.BooksCacheDataSource
 import com.qoiu.holybibleapp.data.cache.BooksCacheMapper
 import com.qoiu.holybibleapp.data.cache.RealmProvider
 import com.qoiu.holybibleapp.data.net.BookService
-import retrofit2.Retrofit
 import com.qoiu.holybibleapp.domain.BaseBookDataToDomainMapper
+import retrofit2.Retrofit
+import com.qoiu.holybibleapp.domain.BaseBooksDataToDomainMapper
 import com.qoiu.holybibleapp.domain.BooksInteractor
-import com.qoiu.holybibleapp.presentation.BaseBooksDomainToUiMapper
-import com.qoiu.holybibleapp.presentation.BooksCommunication
-import com.qoiu.holybibleapp.presentation.MainViewModel
-import com.qoiu.holybibleapp.presentation.ResourceProvider
+import com.qoiu.holybibleapp.presentation.*
 import io.realm.Realm
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import java.util.concurrent.TimeUnit
 
 
-class BibleApp: Application() {
+class BibleApp : Application() {
 
     private companion object {
         const val BASE_URL = "https://bible-go-api.rkeplin.com/v1/"
@@ -31,26 +29,34 @@ class BibleApp: Application() {
         super.onCreate()
         Realm.init(this)
 
-        val retrofit = Retrofit.Builder().baseUrl(BASE_URL).build()
+        val client = OkHttpClient.Builder()
+            .connectTimeout(1,TimeUnit.MINUTES)
+            .readTimeout(1,TimeUnit.MINUTES)
+            .addInterceptor(HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }).build()
+        val retrofit = Retrofit.Builder().client(client).baseUrl(BASE_URL).build()
         val service = retrofit.create(BookService::class.java)
 
-        val cloudDataSource = BooksCloudDataSource.Base(service)
-        val cacheDataSource = BooksCacheDataSource.Base(RealmProvider.Base())
-        val booksCloudMapper = BooksCloudMapper.Base(BookCloudMapper.Base())
-        val booksCacheMapper = BooksCacheMapper.Base(BookCacheMapper.Base())
+        val cloudDataSource = BooksCloudDataSource.Base(service, Gson())
+        val cacheDataSource = BooksCacheDataSource.Base(RealmProvider.Base(),BookDataToDBMapper.Base())
+        val toBookMapper = ToBookMapper.Base()
+        val booksCloudMapper = BooksCloudMapper.Base(toBookMapper)
+        val booksCacheMapper = BooksCacheMapper.Base(toBookMapper)
         val booksRepository = BooksRepository.Base(
             cloudDataSource,
             cacheDataSource,
             booksCloudMapper,
             booksCacheMapper
         )
-        val booksInteractor = BooksInteractor.Base(booksRepository,BaseBookDataToDomainMapper())
+        val booksInteractor =
+            BooksInteractor.Base(booksRepository, BaseBooksDataToDomainMapper(BaseBookDataToDomainMapper()))
 
         val communication = BooksCommunication.Base()
         mainViewModel = MainViewModel(
             communication,
             booksInteractor,
-            BaseBooksDomainToUiMapper(communication, ResourceProvider.Base(this))
+            BaseBooksDomainToUiMapper(ResourceProvider.Base(this),BaseBookDomainToUiMapper())
         )
     }
 }
