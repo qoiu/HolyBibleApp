@@ -8,7 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.qoiu.holybibleapp.R
 
-class BibleAdapter (private val retry: BibleViewHolder.Retry): RecyclerView.Adapter<BibleAdapter.BibleViewHolder>() {
+class BibleAdapter(private val retry: BibleViewHolder.Retry) :
+    RecyclerView.Adapter<BibleAdapter.BibleViewHolder>() {
 
     private val books = ArrayList<BookUi>()
 
@@ -19,15 +20,18 @@ class BibleAdapter (private val retry: BibleViewHolder.Retry): RecyclerView.Adap
     }
 
     override fun getItemViewType(position: Int) = when (books[position]) {
-        is BookUi.Base -> 0
-        is BookUi.Fail -> 1
-        is BookUi.Progress -> 2
+        is BookUi.Testament -> 0
+        is BookUi.Base -> 1
+        is BookUi.Fail -> 2
+        is BookUi.Progress -> 3
+        else -> -1
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BibleViewHolder =
         when (viewType) {
-            0 -> BibleViewHolder.Base(R.layout.book_layout.makeView(parent))
-            1 -> BibleViewHolder.Fail(R.layout.fail_fullscreen.makeView(parent), retry)
+            0 -> BibleViewHolder.Base(R.layout.testament.makeView(parent))
+            1 -> BibleViewHolder.Base(R.layout.book_layout.makeView(parent))
+            2 -> BibleViewHolder.Fail(R.layout.fail_fullscreen.makeView(parent), retry)
             else -> BibleViewHolder.FullscreenProgress(R.layout.progress_fullscreen.makeView(parent))
         }
 
@@ -67,7 +71,7 @@ class BibleAdapter (private val retry: BibleViewHolder.Retry): RecyclerView.Adap
             }
         }
 
-        interface Retry  {
+        interface Retry {
             fun tryAgain()
         }
     }

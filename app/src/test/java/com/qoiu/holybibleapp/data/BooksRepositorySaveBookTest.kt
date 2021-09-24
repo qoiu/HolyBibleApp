@@ -1,7 +1,6 @@
 package com.qoiu.holybibleapp.data
 
-import com.qoiu.holybibleapp.core.Book
-import com.qoiu.holybibleapp.data.cache.BookCacheMapper
+import com.qoiu.holybibleapp.core.Abstract
 import com.qoiu.holybibleapp.data.cache.BookDB
 import com.qoiu.holybibleapp.data.cache.BooksCacheDataSource
 import com.qoiu.holybibleapp.data.cache.BooksCacheMapper
@@ -19,25 +18,25 @@ class BooksRepositorySaveBookTest {
         val repository = BooksRepository.Base(
             testCloudDataSource,
             testCacheDataSource,
-            BooksCloudMapper.Base(BookCloudMapper.Base()),
-            BooksCacheMapper.Base(BookCacheMapper.Base())
+            BooksCloudMapper.Base(ToBookMapper.Base()),
+            BooksCacheMapper.Base(ToBookMapper.Base())
         )
 
         val actualCloud = repository.fetchBooks()
 
         val expectedCloud = BooksData.Success(listOf(
-            Book(0, "name 0"),
-            Book(1, "name 1"),
-            Book(2, "name 2")
+            BookData(0, "name 0","ot"),
+            BookData(1, "name 1","ot"),
+            BookData(2, "name 2","ot")
         ))
 
         Assert.assertEquals(expectedCloud, actualCloud)
 
         val actualCache = repository.fetchBooks()
         val expectedCache = BooksData.Success(listOf(
-            Book(0, "name 0 db"),
-            Book(1, "name 1 db"),
-            Book(2, "name 2 db")
+            BookData(0, "name 0 db","ot"),
+            BookData(1, "name 1 db","ot"),
+            BookData(2, "name 2 db","ot")
         ))
         Assert.assertEquals(expectedCache, actualCache)
     }
@@ -50,30 +49,22 @@ class BooksRepositorySaveBookTest {
             return list
         }
 
-        override fun saveBooks(books: List<Book>) {
+        override fun saveBooks(books: List<BookData>) {
             books.map {book ->
                 list.add(BookDB().apply{
-                    this.id = book.id
-                    this.name = "${book.name} db"
+                    this.map(ToBookMapper.Base())
                 })
             }
         }
     }
 
-    private inner class TestBookCacheMapper: BookCacheMapper {
-        override fun map(bookdb: BookDB) = Book(bookdb.id,bookdb.name)
-    }
-
-    private inner class TestBookCloudMapper : BookCloudMapper{
-        override fun map(id: Int, name: String) = Book(id,name)
-    }
 
     private inner class TestBooksCloudDataSource() : BooksCloudDataSource {
         override suspend fun fetchBooks(): List<BookCloud> {
                 return listOf(
-                    BookCloud(0, "name 0"),
-                    BookCloud(1, "name 1"),
-                    BookCloud(2, "name 2")
+                    BookCloud(0, "name 0","ot"),
+                    BookCloud(1, "name 1","ot"),
+                    BookCloud(2, "name 2","ot")
                 )
             }
         }

@@ -1,7 +1,5 @@
 package com.qoiu.holybibleapp.data
 
-import com.qoiu.holybibleapp.core.Book
-import com.qoiu.holybibleapp.data.cache.BookCacheMapper
 import com.qoiu.holybibleapp.data.cache.BookDB
 import com.qoiu.holybibleapp.data.cache.BooksCacheDataSource
 import com.qoiu.holybibleapp.data.cache.BooksCacheMapper
@@ -12,7 +10,7 @@ import org.junit.Test
 import java.net.UnknownHostException
 
 class BooksRepositoryTest {
-
+/*
     private val unknownHostException = UnknownHostException()
 
     @Test
@@ -155,4 +153,6 @@ class BooksRepositoryTest {
     private inner class TestBookCloudMapper : BookCloudMapper{
         override fun map(id: Int, name: String) = Book(id,name)
     }
+
+ */
 }
