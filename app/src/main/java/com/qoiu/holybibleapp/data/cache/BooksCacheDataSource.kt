@@ -22,7 +22,7 @@ interface BooksCacheDataSource {
             realmProvider.provide().use { realm ->
                 realm.executeTransaction {
                     books.forEach { book ->
-                        book.mapTo(mapper, realm)
+                        book.mapTo(mapper, DbWrapper.Base(realm))
                     }
                 }
             }

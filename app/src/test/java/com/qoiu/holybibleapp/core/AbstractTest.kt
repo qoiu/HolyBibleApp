@@ -1,8 +1,10 @@
 package com.qoiu.holybibleapp.core
 
+import junit.framework.Assert.assertEquals
 import org.junit.Test
 import java.io.IOException
 import java.lang.Exception
+import java.lang.IllegalStateException
 
 class AbstractTest {
 
@@ -10,7 +12,10 @@ class AbstractTest {
     fun test_success() {
         val dataObject = TestDataObject.Success("a", "b")
         val domainObject = dataObject.map(DataMapper.Base())
+        val expected = DomainObject.Success("a b")
         assert(domainObject is DomainObject.Success)
+        assertEquals(expected, domainObject)
+
     }
 
     @Test
@@ -51,7 +56,7 @@ class AbstractTest {
             }
 
             override fun map(exception: Exception): DomainObject {
-                return DomainObject.Fail()
+                return DomainObject.Fail
             }
         }
     }
@@ -59,14 +64,14 @@ class AbstractTest {
     private sealed class DomainObject : Abstract.Object<UIObject, DomainToUIMapper> {
         class Success(private val textCombine: String) : DomainObject() {
             override fun map(mapper: DomainToUIMapper): UIObject {
-                TODO("Not yet implemented")
+                throw IllegalStateException("Not yet implemented")
             }
 
         }
 
-        class Fail : DomainObject() {
+        object Fail : DomainObject() {
             override fun map(mapper: DomainToUIMapper): UIObject {
-                TODO("Not yet implemented")
+                throw IllegalStateException("Not yet implemented")
             }
         }
     }
