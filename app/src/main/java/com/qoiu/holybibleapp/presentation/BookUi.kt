@@ -19,7 +19,7 @@ sealed class BookUi : Abstract.Object<Unit, BookUi.StringMapper> {
 
     class Testament(id: Int, name: String) : Info(id, name)
 
-    class Fail(private val message: String) : BookUi() {
+    data class Fail(private val message: String) : BookUi() {
         override fun map(mapper: StringMapper) = mapper.map(message)
     }
 

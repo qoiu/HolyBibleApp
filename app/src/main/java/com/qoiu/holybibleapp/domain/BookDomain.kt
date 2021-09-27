@@ -13,14 +13,8 @@ sealed class BookDomain: Abstract.Object<BookUi, BookDomainToUiMapper> {
     data class Testament (
         private val type: TestamentType
     ): BookDomain() {
-        override fun map(mapper: BookDomainToUiMapper): BookUi = mapper.map(type.getId(), type.name)
+        override fun map(mapper: BookDomainToUiMapper): BookUi = type.map(mapper)
 
     }
 }
 
-enum class TestamentType(private val id: Int){
-    OLD(Int.MIN_VALUE),
-    NEW(Int.MAX_VALUE);
-
-    fun getId() = id
-}

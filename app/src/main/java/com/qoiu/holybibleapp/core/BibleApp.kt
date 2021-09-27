@@ -7,10 +7,8 @@ import com.qoiu.holybibleapp.data.cache.BooksCacheDataSource
 import com.qoiu.holybibleapp.data.cache.BooksCacheMapper
 import com.qoiu.holybibleapp.data.cache.RealmProvider
 import com.qoiu.holybibleapp.data.net.BookService
-import com.qoiu.holybibleapp.domain.BaseBookDataToDomainMapper
+import com.qoiu.holybibleapp.domain.*
 import retrofit2.Retrofit
-import com.qoiu.holybibleapp.domain.BaseBooksDataToDomainMapper
-import com.qoiu.holybibleapp.domain.BooksInteractor
 import com.qoiu.holybibleapp.presentation.*
 import io.realm.Realm
 import okhttp3.OkHttpClient

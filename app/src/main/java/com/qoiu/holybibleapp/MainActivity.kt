@@ -2,9 +2,7 @@ package com.qoiu.holybibleapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.LinearLayout
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.qoiu.holybibleapp.core.BibleApp
 import com.qoiu.holybibleapp.presentation.BibleAdapter
@@ -22,6 +20,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
         recyclerView.adapter = adapter
+        recyclerView.addItemDecoration(DividerItemDecoration(this,DividerItemDecoration.VERTICAL))
 
         viewModel.observeSuccess(this, {
             adapter.update(it)
