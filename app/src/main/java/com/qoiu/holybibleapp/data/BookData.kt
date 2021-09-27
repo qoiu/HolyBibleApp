@@ -6,12 +6,17 @@ import com.qoiu.holybibleapp.data.cache.DbWrapper
 import com.qoiu.holybibleapp.domain.BookDataToDomainMapper
 import com.qoiu.holybibleapp.domain.BookDomain
 
-class BookData(private val id: Int, private val name: String) :
+data class BookData(private val id: Int, private val name: String, private val testament: String) :
     ToBookDb<BookDB, BookDataToDBMapper>,
     Abstract.Object<BookDomain, BookDataToDomainMapper> {
     override fun map(mapper: BookDataToDomainMapper): BookDomain = mapper.map(id, name)
     override fun mapTo(mapper: BookDataToDBMapper, db: DbWrapper): BookDB =
-        mapper.mapToDb(id, name, db)
+        mapper.mapToDb(id, name, testament, db)
+
+
+    fun compare(temp: TestamentTemp) = temp.compare(testament)
+
+    fun saveTestament(temp: TestamentTemp) = temp.save(testament)
 }
 
 interface ToBookDb<T, M : Abstract.Mapper> {

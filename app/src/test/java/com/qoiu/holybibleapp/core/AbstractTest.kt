@@ -1,6 +1,6 @@
 package com.qoiu.holybibleapp.core
 
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.io.IOException
 import java.lang.Exception
@@ -13,7 +13,6 @@ class AbstractTest {
         val dataObject = TestDataObject.Success("a", "b")
         val domainObject = dataObject.map(DataMapper.Base())
         val expected = DomainObject.Success("a b")
-        assert(domainObject is DomainObject.Success)
         assertEquals(expected, domainObject)
 
     }
