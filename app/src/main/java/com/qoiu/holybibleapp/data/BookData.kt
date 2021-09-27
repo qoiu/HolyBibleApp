@@ -2,6 +2,7 @@ package com.qoiu.holybibleapp.data
 
 import com.qoiu.holybibleapp.core.Abstract
 import com.qoiu.holybibleapp.data.cache.BookDB
+import com.qoiu.holybibleapp.data.cache.DbWrapper
 import com.qoiu.holybibleapp.domain.BookDataToDomainMapper
 import com.qoiu.holybibleapp.domain.BookDomain
 
