@@ -10,6 +10,7 @@ interface BookDataToDBMapper : Abstract.Mapper {
         override fun mapToDb(id: Int, name: String, testament: String, db: DbWrapper): BookDB {
             val bookDB = db.createObject(id)
             bookDB.name = name
+            bookDB.testament = testament
             return bookDB
         }
     }
