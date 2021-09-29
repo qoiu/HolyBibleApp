@@ -61,7 +61,7 @@ class AbstractTest {
     }
 
     private sealed class DomainObject : Abstract.Object<UIObject, DomainToUIMapper> {
-        class Success(private val textCombine: String) : DomainObject() {
+        data class Success(private val textCombine: String) : DomainObject() {
             override fun map(mapper: DomainToUIMapper): UIObject {
                 throw IllegalStateException("Not yet implemented")
             }
