@@ -27,10 +27,31 @@ class BaseOldBooksDomainToUiMapperTest {
         assertEquals(expected, actual)
     }
 
+    @Test
+    fun book_domain_to_ui_mapper_base(){
+        val mapper = BaseBookDomainToUiMapper(TestResourceProvider())
+        val actual = mapper.map(1,"genesis")
+        val expected = BookUi.Base(1,"genesis")
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun book_domain_to_ui_mapper_testament(){
+        val mapper = BaseBookDomainToUiMapper(TestResourceProvider())
+        var actual = mapper.map(Int.MIN_VALUE,"old")
+        var expected = BookUi.Testament(Int.MIN_VALUE,"old")
+        assertEquals(expected, actual)
+        actual = mapper.map(Int.MAX_VALUE,"new")
+        expected = BookUi.Testament(Int.MAX_VALUE,"new")
+        assertEquals(expected, actual)
+    }
+
     private inner class TestResourceProvider() : ResourceProvider {
         override fun getString(id: Int) = when (id) {
             R.string.no_connection_message -> "no connection"
             R.string.service_unavailable_message -> "service unavailable"
+            R.string.old_testament->"old"
+            R.string.new_testament->"new"
             else -> "generic"
         }
     }

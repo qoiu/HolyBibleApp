@@ -55,7 +55,8 @@ class BibleApp : Application() {
         mainViewModel = MainViewModel(
             communication,
             booksInteractor,
-            BaseBooksDomainToUiMapper(resourceProvider,BaseBookDomainToUiMapper(resourceProvider))
+            BaseBooksDomainToUiMapper(resourceProvider,BaseBookDomainToUiMapper(resourceProvider)),
+            UiDataCache.Base(IdCache.Base(this))
         )
     }
 }
