@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.qoiu.holybibleapp.core.CustomTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/textView"
-    android:text="Genesis"
+    android:text="@string/genesis"
     android:padding="@dimen/padding8"
     style="@style/TextAppearance.AppCompat.Body1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-</TextView>
+</com.qoiu.holybibleapp.core.CustomTextView>

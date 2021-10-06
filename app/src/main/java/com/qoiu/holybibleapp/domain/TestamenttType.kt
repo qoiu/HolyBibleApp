@@ -2,9 +2,10 @@ package com.qoiu.holybibleapp.domain
 
 import com.qoiu.holybibleapp.core.Abstract
 import com.qoiu.holybibleapp.core.Matcher
-import com.qoiu.holybibleapp.presentation.BookUi
+import com.qoiu.holybibleapp.domain.book.BookDomainToUiMapper
+import com.qoiu.holybibleapp.presentation.book.BookUi
 
-enum class TestamentType(private val id: Int): Matcher<Int>, Abstract.Object<BookUi,BookDomainToUiMapper>{
+enum class TestamentType(private val id: Int): Matcher<Int>, Abstract.Object<BookUi, BookDomainToUiMapper>{
     OLD(Int.MIN_VALUE),
     NEW(Int.MAX_VALUE);
 

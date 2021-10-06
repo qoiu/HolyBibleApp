@@ -8,7 +8,7 @@
     android:padding="@dimen/padding8"
     android:background="@color/purple_200">
 
-    <TextView
+    <com.qoiu.holybibleapp.core.CustomTextView
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -19,7 +19,7 @@
         android:text="@string/genesis"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@color/white" />
-    <ImageView
+    <com.qoiu.holybibleapp.core.CollapseView
         app:tint="@color/white"
         android:id="@+id/collapseView"
         android:src="@mipmap/ic_launcher"
