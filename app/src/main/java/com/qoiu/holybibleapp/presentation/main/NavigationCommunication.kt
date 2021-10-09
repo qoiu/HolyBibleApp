@@ -1,4 +1,4 @@
-package com.qoiu.holybibleapp.presentation
+package com.qoiu.holybibleapp.presentation.main
 
 import com.qoiu.holybibleapp.core.Communication
 

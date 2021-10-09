@@ -1,18 +1,19 @@
-package com.qoiu.holybibleapp.presentation
+package com.qoiu.holybibleapp.presentation.main
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import com.qoiu.holybibleapp.core.Read
 
 class MainViewModel(
-    private val navigator: Read<Int>,
+    private val navigator: MainNavigator,
     private val communication: NavigationCommunication
 ) : ViewModel() {
 
     fun init(){
         communication.map(navigator.read())
     }
+
+    fun getFragment(id: Int) =  navigator.getFragment(id)
 
     fun observe(owner: LifecycleOwner, observer: Observer<Int>) =
         communication.observe(owner, observer)

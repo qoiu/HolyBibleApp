@@ -2,17 +2,18 @@ package com.qoiu.holybibleapp.presentation.chapter
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import com.qoiu.holybibleapp.core.BibleApp
 import com.qoiu.holybibleapp.core.Retry
 import com.qoiu.holybibleapp.presentation.BaseFragment
 
 class ChaptersFragment : BaseFragment() {
-    private lateinit var viewModel: ChaptersViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = (requireActivity().application as BibleApp).chaptersViewModel
+    private val viewModelFactory by lazy {
+        (requireActivity().application as BibleApp).chaptersFactory()
     }
+
+    private val viewModel by viewModels<ChaptersViewModel>{viewModelFactory}
 
     override fun getTitle(): String = viewModel.getBookName()
 

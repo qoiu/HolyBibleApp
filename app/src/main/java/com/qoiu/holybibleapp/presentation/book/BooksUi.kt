@@ -1,7 +1,6 @@
 package com.qoiu.holybibleapp.presentation.book
 
 import com.qoiu.holybibleapp.core.Abstract
-import com.qoiu.holybibleapp.presentation.UiDataCache
 
 sealed class BooksUi : Abstract.Object<Unit, BooksCommunication> {
     abstract fun cache(uiDataCache: UiDataCache): BooksUi

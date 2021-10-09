@@ -1,10 +1,7 @@
-package com.qoiu.holybibleapp.presentation
-
-import com.qoiu.holybibleapp.presentation.book.BookUi
-import com.qoiu.holybibleapp.presentation.book.BooksUi
+package com.qoiu.holybibleapp.presentation.book
 
 interface UiDataCache {
-    fun cache(list: List<BookUi>): BooksUi
+    fun cache(list: List<BookUi>): BooksUi.Base
     fun changeState(id: Int): List<BookUi>
     fun saveState()
 
@@ -12,7 +9,7 @@ interface UiDataCache {
     class Base(private val cache: CollapsedIdCache) : UiDataCache {
         private val cachedList = ArrayList<BookUi>()
 
-        override fun cache(list: List<BookUi>): BooksUi {
+        override fun cache(list: List<BookUi>): BooksUi.Base {
             cachedList.clear()
             cachedList.addAll(list)
             val ids = cache.read()

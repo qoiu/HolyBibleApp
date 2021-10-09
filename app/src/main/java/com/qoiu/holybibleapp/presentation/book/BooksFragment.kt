@@ -2,6 +2,7 @@ package com.qoiu.holybibleapp.presentation.book
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import com.qoiu.holybibleapp.R
 import com.qoiu.holybibleapp.core.BibleApp
 import com.qoiu.holybibleapp.core.Retry
@@ -9,12 +10,12 @@ import com.qoiu.holybibleapp.presentation.BaseFragment
 
 class BooksFragment : BaseFragment() {
 
-    private lateinit var viewModel: BooksViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = (requireActivity().application as BibleApp).booksViewModel
+    private val viewModelFactory by lazy {
+        (requireActivity().application as BibleApp).booksFactory()
     }
+
+    private val viewModel by activityViewModels<BooksViewModel> { viewModelFactory }
+
 
     override fun getTitle(): String = getString(R.string.app_name)
 
@@ -42,6 +43,6 @@ class BooksFragment : BaseFragment() {
 
     override fun onPause() {
         super.onPause()
-        viewModel.saveCollapsedState()
+        viewModel.save()
     }
 }

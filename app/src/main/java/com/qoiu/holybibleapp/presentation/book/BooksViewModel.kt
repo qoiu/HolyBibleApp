@@ -7,10 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.qoiu.holybibleapp.core.Save
 import com.qoiu.holybibleapp.domain.book.BooksDomainToUiMapper
 import com.qoiu.holybibleapp.domain.book.BooksInteractor
-import com.qoiu.holybibleapp.presentation.NavigationCommunication
-import com.qoiu.holybibleapp.presentation.Screens.Companion.BOOKS_SCREEN
-import com.qoiu.holybibleapp.presentation.Screens.Companion.CHAPTERS_SCREEN
-import com.qoiu.holybibleapp.presentation.UiDataCache
+import com.qoiu.holybibleapp.presentation.main.NavigationCommunication
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,7 +18,7 @@ class BooksViewModel(
     private val communication: BooksCommunication,
     private val uiDataCache: UiDataCache,
     private val bookCache: Save<Pair<Int, String>>,
-    private val navigator: Save<Int>,
+    private val navigator: BooksNavigator,
     private val navigationCommunication: NavigationCommunication
 ) : ViewModel() {
     fun fetchBooks(){
@@ -29,9 +26,9 @@ class BooksViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val resultDomain = booksInteractor.fetchBooks()
             val resultUi = resultDomain.map(mapper)
-            val actual = resultUi.cache(uiDataCache)
+            resultUi.cache(uiDataCache)
             withContext(Dispatchers.Main){
-                actual.map(communication)
+                resultUi.map(communication)
             }
         }
     }
@@ -42,15 +39,21 @@ class BooksViewModel(
 
     fun collapseOrExpand(id: Int) = communication.map(uiDataCache.changeState(id))
 
-    fun saveCollapsedState()=  uiDataCache.saveState()
+    fun save() = uiDataCache.saveState()
+
 
     fun showBook(id: Int, name: String){
         bookCache.save(Pair(id,name))
-        navigationCommunication.map(CHAPTERS_SCREEN)
+        navigator.nextScreen(navigationCommunication)
     }
 
     fun init(){
-        navigator.save(BOOKS_SCREEN)
+        navigator.saveBookScreen()
         fetchBooks()
+    }
+
+    override fun onCleared() {
+        uiDataCache.saveState()
+        super.onCleared()
     }
 }

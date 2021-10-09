@@ -1,13 +1,13 @@
 package com.qoiu.holybibleapp.presentation.book
 
-import android.content.Context
+import com.qoiu.holybibleapp.core.PreferenceProvider
 import com.qoiu.holybibleapp.core.Read
 import com.qoiu.holybibleapp.core.Save
 
 interface BookCache: Save<Pair<Int,String>>, Read<Pair<Int,String>> {
 
-    class Base(context: Context): BookCache{
-        private val sharedPreferences = context.getSharedPreferences(BOOK_ID_FILENAME,Context.MODE_PRIVATE)
+    class Base(preferenceProvider: PreferenceProvider): BookCache{
+        private val sharedPreferences = preferenceProvider.provideSharedPreference(BOOK_ID_FILENAME)
         override fun save(data: Pair<Int, String>) = sharedPreferences.edit()
             .putInt(BOOK_ID_KEY,data.first)
             .putString(BOOK_NAME_KEY, data.second)

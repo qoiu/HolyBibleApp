@@ -2,6 +2,7 @@
 <com.qoiu.holybibleapp.core.CustomTextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/textView"
+    android:background="?selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     style="@style/TextAppearance.AppCompat.Body1"/>
