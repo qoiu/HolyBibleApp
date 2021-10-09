@@ -1,7 +1,6 @@
 package com.qoiu.holybibleapp.presentation.book
 
 import com.qoiu.holybibleapp.core.*
-import com.qoiu.holybibleapp.presentation.CollapsedIdCache
 
 
 sealed class BookUi : ComparableTextMapper<BookUi>, Matcher<Int>, Collapsing,
