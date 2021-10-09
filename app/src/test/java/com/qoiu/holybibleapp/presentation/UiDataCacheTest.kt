@@ -1,12 +1,14 @@
 package com.qoiu.holybibleapp.presentation
 
 import com.qoiu.holybibleapp.presentation.book.BookUi
+import com.qoiu.holybibleapp.presentation.book.CollapsedIdCache
+import com.qoiu.holybibleapp.presentation.book.UiDataCache
 import org.junit.Assert.*
 import org.junit.Test
 
 class UiDataCacheTest {
 
-    private inner class TestCache(): CollapsedIdCache{
+    private inner class TestCache(): CollapsedIdCache {
         private val set = HashSet<Int>()
         override fun read(): Set<Int> = set
 

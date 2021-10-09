@@ -1,10 +1,13 @@
 package com.qoiu.holybibleapp.data
 
-import com.qoiu.holybibleapp.data.cache.BookDB
-import com.qoiu.holybibleapp.data.cache.BooksCacheDataSource
-import com.qoiu.holybibleapp.data.cache.BooksCacheMapper
-import com.qoiu.holybibleapp.data.cache.DbWrapper
-import com.qoiu.holybibleapp.data.net.BookCloud
+import com.qoiu.holybibleapp.core.DbWrapper
+import com.qoiu.holybibleapp.data.books.*
+import com.qoiu.holybibleapp.data.books.cache.BookDB
+import com.qoiu.holybibleapp.data.books.cache.BooksCacheDataSource
+import com.qoiu.holybibleapp.data.books.cache.BooksCacheMapper
+import com.qoiu.holybibleapp.data.books.cloud.BookCloud
+import com.qoiu.holybibleapp.data.books.cloud.BooksCloudDataSource
+import com.qoiu.holybibleapp.data.books.cloud.BooksCloudMapper
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Test
@@ -46,28 +49,29 @@ class BooksRepositorySaveBookTest : BaseBooksRepositoryTest() {
 
     class TestBooksCacheDataSource() : BooksCacheDataSource {
         private val list = ArrayList<BookDB>()
-        override fun fetchBooks() = list
 
-        override fun saveBooks(books: List<BookData>) {
-            books.map { book ->
-                list.add(book.mapTo(object : BookDataToDBMapper {
+        override fun save(data: List<BookData>) {
+            data.map { book ->
+                list.add(book.mapBy(object : BookDataToDBMapper {
                     override fun mapToDb(
                         id: Int,
                         name: String,
                         testament: String,
-                        db: DbWrapper
+                        db: DbWrapper<BookDB>
                     ): BookDB = BookDB().apply {
                         this.id = id
                         this.name = "$name db"
                         this.testament = testament
                     }
-                }, object : DbWrapper {
+                }, object : DbWrapper<BookDB> {
                     override fun createObject(id: Int) = BookDB().apply {
                         this.id = id
                     }
                 }))
             }
         }
+
+        override fun read(): List<BookDB> = list
     }
 
 

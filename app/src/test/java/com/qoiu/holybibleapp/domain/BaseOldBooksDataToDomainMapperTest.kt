@@ -1,7 +1,11 @@
 package com.qoiu.holybibleapp.domain
 
-import com.qoiu.holybibleapp.data.BookData
-import org.junit.Assert
+import com.qoiu.holybibleapp.core.ErrorType
+import com.qoiu.holybibleapp.data.books.BookData
+import com.qoiu.holybibleapp.domain.book.BaseBooksDataToDomainMapper
+import com.qoiu.holybibleapp.domain.book.BookDataToDomainMapper
+import com.qoiu.holybibleapp.domain.book.BookDomain
+import com.qoiu.holybibleapp.domain.book.BooksDomain
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.lang.IllegalStateException

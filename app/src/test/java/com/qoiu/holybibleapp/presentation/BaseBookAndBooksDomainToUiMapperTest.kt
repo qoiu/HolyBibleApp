@@ -1,8 +1,11 @@
 package com.qoiu.holybibleapp.presentation
 
+import android.content.SharedPreferences
 import com.qoiu.holybibleapp.R
-import com.qoiu.holybibleapp.domain.BookDomainToUiMapper
-import com.qoiu.holybibleapp.domain.ErrorType
+import com.qoiu.holybibleapp.domain.book.BookDomainToUiMapper
+import com.qoiu.holybibleapp.core.ErrorType
+import com.qoiu.holybibleapp.core.ResourceProvider
+import com.qoiu.holybibleapp.presentation.book.*
 import org.junit.Assert.*
 import org.junit.Test
 import java.lang.IllegalStateException
@@ -11,11 +14,11 @@ class BaseOldBooksDomainToUiMapperTest {
     @Test
     fun test_fail() {
         val resourceProvider = TestResourceProvider()
-        val mapper = BaseBooksDomainToUiMapper(resourceProvider,object : BookDomainToUiMapper{
+        val mapper = BaseBooksDomainToUiMapper(resourceProvider,object : BookDomainToUiMapper {
             override fun map(id: Int, name: String): BookUi {
-                throw IllegalStateException()
+                throw IllegalStateException("not use here")
             }
-        })
+        },UiDataCache.Base(CollapsedIdCache.Mock(resourceProvider)))
         var actual= mapper.map(ErrorType.NO_CONNECTION)
         var expected = BooksUi.Base(listOf(BookUi.Fail("no connection")))
         assertEquals(expected, actual)
@@ -53,6 +56,18 @@ class BaseOldBooksDomainToUiMapperTest {
             R.string.old_testament->"old"
             R.string.new_testament->"new"
             else -> "generic"
+        }
+
+        override fun getString(id: Int, vararg args: Any): String {
+            return getString(id)
+        }
+
+        override fun readText(id: Int): String {
+            throw IllegalStateException("not use here")
+        }
+
+        override fun provideSharedPreference(name: String): SharedPreferences {
+            throw IllegalStateException("not use here")
         }
     }
 }

@@ -1,9 +1,12 @@
 package com.qoiu.holybibleapp.data
 
-import com.qoiu.holybibleapp.data.cache.BookDB
-import com.qoiu.holybibleapp.data.cache.BooksCacheDataSource
-import com.qoiu.holybibleapp.data.cache.BooksCacheMapper
-import com.qoiu.holybibleapp.data.net.BookCloud
+import com.qoiu.holybibleapp.data.books.*
+import com.qoiu.holybibleapp.data.books.cache.BookDB
+import com.qoiu.holybibleapp.data.books.cache.BooksCacheDataSource
+import com.qoiu.holybibleapp.data.books.cache.BooksCacheMapper
+import com.qoiu.holybibleapp.data.books.cloud.BookCloud
+import com.qoiu.holybibleapp.data.books.cloud.BooksCloudDataSource
+import com.qoiu.holybibleapp.data.books.cloud.BooksCloudMapper
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
@@ -102,7 +105,7 @@ class BooksRepositoryTest : BaseBooksRepositoryTest() {
         private val errorTypeNoConnection: Boolean = true
     ) : BooksCacheDataSource {
 
-        override fun fetchBooks(): List<BookDB> {
+        override fun read(): List<BookDB> {
             return if (returnSuccess) {
 
                 listOf(
@@ -126,7 +129,7 @@ class BooksRepositoryTest : BaseBooksRepositoryTest() {
             }
         }
 
-        override fun saveBooks(books: List<BookData>) {
+        override fun save(data: List<BookData>) {
 
         }
     }
