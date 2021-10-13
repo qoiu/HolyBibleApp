@@ -1,4 +1,4 @@
-package com.qoiu.holybibleapp.sl
+package com.qoiu.holybibleapp.sl.chapters
 
 import com.qoiu.holybibleapp.data.chapters.ChapterDataToDbMapper
 import com.qoiu.holybibleapp.data.chapters.ChapterIdToUiMapper
@@ -16,6 +16,8 @@ import com.qoiu.holybibleapp.presentation.chapter.BaseChapterDomainToUiMapper
 import com.qoiu.holybibleapp.presentation.chapter.BaseChaptersDomainToUiMapper
 import com.qoiu.holybibleapp.presentation.chapter.ChaptersCommunication
 import com.qoiu.holybibleapp.presentation.chapter.ChaptersViewModel
+import com.qoiu.holybibleapp.sl.BaseModule
+import com.qoiu.holybibleapp.sl.CoreModule
 
 class ChaptersModule(private val coreModule: CoreModule): BaseModule<ChaptersViewModel> {
     override fun getViewModel(): ChaptersViewModel = ChaptersViewModel(
@@ -23,7 +25,9 @@ class ChaptersModule(private val coreModule: CoreModule): BaseModule<ChaptersVie
         getChaptersCommunication(),
         getChaptersMapper(),
         coreModule.navigator,
-        coreModule.bookCache
+        coreModule.bookCache,
+        coreModule.chapterCache,
+        coreModule.navigationCommunication
     )
 
     private fun getChaptersMapper() = BaseChaptersDomainToUiMapper(

@@ -10,7 +10,7 @@ interface ChapterIdToUiMapper: Abstract.Mapper {
 
     class Base(private val resourceProvider: ResourceProvider): ChapterIdToUiMapper{
         override fun map(generatedId: Int, realId: Int): ChapterUi =
-            ChapterUi.Base(generatedId,resourceProvider.getString(R.string.chapter_number, realId))
+            ChapterUi.Base(realId,resourceProvider.getString(R.string.chapter_number, realId))
     }
 
 }

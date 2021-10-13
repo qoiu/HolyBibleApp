@@ -6,6 +6,7 @@ import com.qoiu.holybibleapp.core.RealmProvider
 import com.qoiu.holybibleapp.core.ResourceProvider
 import com.qoiu.holybibleapp.presentation.Navigator
 import com.qoiu.holybibleapp.presentation.book.BookCache
+import com.qoiu.holybibleapp.presentation.chapter.ChapterCache
 import com.qoiu.holybibleapp.presentation.main.MainViewModel
 import com.qoiu.holybibleapp.presentation.main.NavigationCommunication
 import io.realm.Realm
@@ -26,6 +27,7 @@ class CoreModule : BaseModule<MainViewModel>{
     lateinit var navigator: Navigator
     lateinit var navigationCommunication: NavigationCommunication
     lateinit var bookCache: BookCache // TODO: 09.10.2021 move to common for 2 modules when added ChapterCache
+    lateinit var chapterCache: ChapterCache
     private lateinit var retrofit: Retrofit
 
    fun init(context: Context) {
@@ -42,6 +44,7 @@ class CoreModule : BaseModule<MainViewModel>{
        retrofit = Retrofit.Builder().client(client).baseUrl(BASE_URL).build()
        resourceProvider = ResourceProvider.Base(context)
        bookCache = BookCache.Base(resourceProvider)
+       chapterCache = ChapterCache.Base(resourceProvider)
 
        navigator = Navigator.Base(resourceProvider)
        navigationCommunication = NavigationCommunication.Base()

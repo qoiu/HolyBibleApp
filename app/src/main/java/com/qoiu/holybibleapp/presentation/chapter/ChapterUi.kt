@@ -1,15 +1,21 @@
 package com.qoiu.holybibleapp.presentation.chapter
 
+import android.view.View
 import com.qoiu.holybibleapp.core.ComparableTextMapper
 import com.qoiu.holybibleapp.core.TextMapper
 
 sealed class ChapterUi : ComparableTextMapper<ChapterUi>{
 
+    open fun open(show: Show) = Unit
+
     class Base(
-        private val id: Int, // TODO: 04.10.2021 Use to get verses
+        private val id: Int,
         private val text: String
     ) : ChapterUi() {
         override fun map(mapper: TextMapper) = mapper.map(text)
+        override fun open(show: Show) {
+            show.show(id)
+        }
     }
 
     class Fail(

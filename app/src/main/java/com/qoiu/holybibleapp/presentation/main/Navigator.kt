@@ -10,8 +10,10 @@ import com.qoiu.holybibleapp.presentation.chapter.ChaptersFragment
 import com.qoiu.holybibleapp.presentation.chapter.ChaptersNavigator
 import com.qoiu.holybibleapp.presentation.main.MainNavigator
 import com.qoiu.holybibleapp.presentation.main.NavigationCommunication
+import com.qoiu.holybibleapp.presentation.verses.VersesFragment
+import com.qoiu.holybibleapp.presentation.verses.VersesNavigator
 
-interface Navigator : Save<Int>, Read<Int>, BooksNavigator, ChaptersNavigator, MainNavigator {
+interface Navigator : Save<Int>, Read<Int>, BooksNavigator, ChaptersNavigator,VersesNavigator, MainNavigator {
 
     class Base(preferenceProvider: PreferenceProvider) : Navigator {
 
@@ -27,39 +29,36 @@ interface Navigator : Save<Int>, Read<Int>, BooksNavigator, ChaptersNavigator, M
                 override fun get(): Fragment {
                     return ChaptersFragment()
                 }
+            },
+            object : FragmentGetter {
+                override fun get(): Fragment {
+                    return VersesFragment()
+                }
             }
 
         )
 
-        override fun save(data: Int) {
+        override fun save(data: Int) =
             sharedPreferences.edit().putInt(CURRENT_SCREEN_KEY, data).apply()
-        }
 
-        override fun read(): Int {
-            return sharedPreferences.getInt(CURRENT_SCREEN_KEY, 0)
-        }
+        override fun read(): Int = sharedPreferences.getInt(CURRENT_SCREEN_KEY, 0)
 
-        override fun saveBookScreen() {
-            save(BOOKS_SCREEN)
-        }
 
-        override fun nextScreen(navigationCommunication: NavigationCommunication) {
+        override fun nextScreen(navigationCommunication: NavigationCommunication) =
             navigationCommunication.map(read() + 1)
-        }
 
-        override fun saveChaptersScreen() {
-            save(CHAPTERS_SCREEN)
-        }
+        override fun saveBookScreen() = save(BOOKS_SCREEN)
+        override fun saveChaptersScreen() = save(CHAPTERS_SCREEN)
+        override fun saveVersesScreen() =  save(VERSES_SCREEN)
 
-        override fun getFragment(id: Int): Fragment {
-            return fragments[id].get()
-        }
+        override fun getFragment(id: Int) =  fragments[id].get()
 
         private companion object {
             const val NAVIGATOR_FILE_NAME = "navigation"
             const val CURRENT_SCREEN_KEY = "screenId"
             const val BOOKS_SCREEN = 0
             const val CHAPTERS_SCREEN = 1
+            const val VERSES_SCREEN = 2
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.qoiu.holybibleapp.sl
+package com.qoiu.holybibleapp.sl.books
 
 import com.qoiu.holybibleapp.data.books.BookDataToDBMapper
 import com.qoiu.holybibleapp.data.books.BooksRepository
@@ -12,6 +12,8 @@ import com.qoiu.holybibleapp.domain.book.BaseBookDataToDomainMapper
 import com.qoiu.holybibleapp.domain.book.BaseBooksDataToDomainMapper
 import com.qoiu.holybibleapp.domain.book.BooksInteractor
 import com.qoiu.holybibleapp.presentation.book.*
+import com.qoiu.holybibleapp.sl.BaseModule
+import com.qoiu.holybibleapp.sl.CoreModule
 
 class BooksModule(
     private val coreModule: CoreModule,

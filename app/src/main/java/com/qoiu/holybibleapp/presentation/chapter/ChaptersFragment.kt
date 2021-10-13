@@ -22,6 +22,9 @@ class ChaptersFragment : BaseFragment() {
 
         val adapter = ChaptersAdapter(object : Retry{
             override fun tryAgain() = viewModel.fetchChapters()
+        },
+        object : ChaptersAdapter.ChapterListener{
+            override fun show(chapterUi: ChapterUi) = chapterUi.open(viewModel)
         })
 
         viewModel.observeChapters(this,{adapter.update(it)})
